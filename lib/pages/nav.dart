@@ -34,9 +34,9 @@ setState(() {
         BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month_sharp),
             label: "Calender"),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "home"),
+        // BottomNavigationBarItem(
+        //     icon: Icon(Icons.home),
+        //     label: "home"),
       ],);
   }
 }
