@@ -25,7 +25,7 @@ class _StartScreenState extends State<StartScreen> {
   Widget build(BuildContext context) {
 
     Timer(
-      Duration(seconds : 5),
+      Duration(seconds : 1),
         ()=> GoRouter.of(context).go("/task")
 
     );

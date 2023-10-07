@@ -21,7 +21,7 @@ class _navState extends State<nav> {
       onTap: (index){
 setState(() {
   i=index;
-  i==0?GoRouter.of(context).go("/task"):i==1?GoRouter.of(context).go("/calender"):GoRouter.of(context).go("/idk");
+  i==0?GoRouter.of(context).go("/task"):i==1?GoRouter.of(context).go("/calender"):GoRouter.of(context).go("/appointmentlist");
 });
       },
       currentIndex: i,
@@ -34,9 +34,9 @@ setState(() {
         BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month_sharp),
             label: "Calender"),
-        // BottomNavigationBarItem(
-        //     icon: Icon(Icons.home),
-        //     label: "home"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Schedule"),
       ],);
   }
 }

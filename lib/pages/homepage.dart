@@ -140,7 +140,7 @@ color: _bgclr,
             children: [
               SizedBox(width: 135,),
               Center(child: Text("TASKS",style: TextStyle(fontSize: 20,color: Colors.white),)),
-              SizedBox(width: 90,),
+              SizedBox(width: 78,),
               Text("${completed()}/${db.todolist.length}"),
             ],
           ),),
@@ -150,27 +150,81 @@ color: _bgclr,
         // backgroundColor: _clr,
         floatingActionButton: FloatingActionButton(
           onPressed: popup,
-backgroundColor: Color(0xff6499E9),
+          backgroundColor: Color(0xff6499E9),
           child: Icon(CupertinoIcons.add),
         ),
-        body: Container(
-          child: ListView.builder(
+        body: SingleChildScrollView(
+          child: Column(
+              children: <Widget>[
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                      //i want to display all items in array
+                  itemCount: db.todolist.length,
+                  itemBuilder: (context,index){
+                    return Card(
+                      taskname: db.todolist[index][0],
+                      taskcompleted: db.todolist[index][1],
+                      onChanged: (value)=>checkbox(value, index),
+                      deltaskfunction: (context)=> deltask(index),
+                      edittaskfunction: (context)=> popup2(index),
+                      color: _clr,
+                    );
+                  },
 
-                //i want to display all items in array
-            itemCount: db.todolist.length,
-            itemBuilder: (context,index){
-              return Card(
-                taskname: db.todolist[index][0],
-                taskcompleted: db.todolist[index][1],
-                onChanged: (value)=>checkbox(value, index),
-                deltaskfunction: (context)=> deltask(index),
-                edittaskfunction: (context)=> popup2(index),
-                color: _clr,
-              );
-            },
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
 
-          ),
+                  children: [
+                    SizedBox(width: 78,),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          color: Colors.blue[100],
+
+
+
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          color: Colors.blue[200],
+
+
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          color: Colors.blue[100],
+
+
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ],
+            ),
         ),
+
       ),
     );
   }

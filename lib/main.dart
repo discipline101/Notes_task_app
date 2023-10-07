@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:notes/pages/ThirdNavbarOption/AppointmentsList.dart';
 import 'package:notes/pages/calander.dart';
 import 'package:notes/pages/calender/meeting.dart';
 import 'package:notes/pages/homepage.dart';
@@ -54,7 +55,9 @@ class MyApp extends StatelessWidget {
 
 int myindex=0;
     GoRouter router = GoRouter(routes: [
-      GoRoute(path: "/",
+      GoRoute(
+          // path: "/",
+        path: "/change ti later",
       builder: (context,state)=>StartScreen()
       ),
       ShellRoute(routes: [
@@ -70,10 +73,11 @@ int myindex=0;
             builder: (context,state)=>HomePage()
         ),
 
-        // GoRoute(
-        //     path: "/idk",
-        //     builder: (context,state)=>
-        // ),
+        GoRoute(
+            // path: "/appointmentlist",
+          path: "/",
+            builder: (context,state)=> AppointmentList(),
+        ),
 
 
       ],
