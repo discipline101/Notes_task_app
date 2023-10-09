@@ -35,7 +35,7 @@ setState(() {
             icon: Icon(Icons.calendar_month_sharp),
             label: "Calender"),
         BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.list),
             label: "Schedule"),
       ],);
   }

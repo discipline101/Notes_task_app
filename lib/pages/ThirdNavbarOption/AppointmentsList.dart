@@ -23,6 +23,7 @@ class AppointmentList extends StatefulWidget {
 
 class _AppointmentListState extends State<AppointmentList> {
 
+  int c= 0;
 
 
   List todolist=[
@@ -46,12 +47,18 @@ class _AppointmentListState extends State<AppointmentList> {
 @override
   void initState() {
     // TODO: implement initState
- todolist= calendb.initialiseappointments();
-
+  if(calendb.initialiseappointments()!=null  && c==0) {
+    // todolist=[];
+    todolist = calendb.initialiseappointments();
+    print(calendb.initialiseappointments());
+    todolist.sort((a,b)=>
+        a[5].compareTo(b[5])
+    );
+    c=1;
+    print(c);
+  }
  //sorting the list
- todolist.sort((a,b)=>
-   a[4].compareTo(b[4])
- );
+
 
     super.initState();
   }
@@ -126,7 +133,8 @@ class _AppointmentListState extends State<AppointmentList> {
           return Popupboxx2(
             cancle: ()=>Navigator.of(context).pop(),
             controller: _cntrl2,
-            save: ()=> {save2(index),    Navigator.of(context).pop()
+            save: ()=> {save2(index),
+              Navigator.of(context).pop()
             },
           );
         }
@@ -136,7 +144,12 @@ class _AppointmentListState extends State<AppointmentList> {
   void save2(index){
     setState(() {
       if(_cntrl2.text==""){}else {
-        todolist[index][0]=_cntrl2.text;
+        setState(() {
+          todolist[index][0]=_cntrl2.text;
+          calendb.meetings3[index].eventName=_cntrl2.text;
+          calendb.updatedb2();
+        });
+
       }
     });
     _cntrl2.text="";
@@ -146,10 +159,31 @@ class _AppointmentListState extends State<AppointmentList> {
 
 
 
+  // void delpopup(index){
+  //   showDialog(context: context,
+  //       builder: (context){
+  //     return Areyousure(index: index,);
+  //       }
+  //   );
+  // }
+
+
   void deltask(index){
+
     setState(() {
-      todolist.removeAt(index);
+
+      print(calendb.meetings3.length);
+      for(int i= 0;i<calendb.meetings3.length;i++){
+        if ( calendb.meetings3[i].eventName==todolist[index][0]  && calendb.meetings3[i].from.toString()==todolist[index][5] ){
+
+          calendb.delete(i);
+          todolist.removeAt(index);
+          calendb.updatedb2();
+        }
+      }
+
     });
+
     // db.updatedb();
         ()=>Navigator.of(context).pop();
   }
@@ -174,18 +208,19 @@ class _AppointmentListState extends State<AppointmentList> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(child: Text("SCHEDULE",style: TextStyle(fontSize: 20,color: Colors.white),)),
+              Center(child: Text("SCHEDULE",style: TextStyle(fontSize: 22,color: Colors.white),)),
               Text(""),
             ],
           ),),
 
         backgroundColor: Colors.transparent,
 
-        floatingActionButton: FloatingActionButton(
-          onPressed: popup,
-          backgroundColor: Color(0xff6499E9),
-          child: Icon(CupertinoIcons.add),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Color(0xff6499E9),
+        //   child: Icon(CupertinoIcons.add),
+        //   onPressed: popup,
+        //
+        // ),
 
 
 
@@ -201,10 +236,42 @@ class _AppointmentListState extends State<AppointmentList> {
                 taskname: todolist[index][0],
                 taskcompleted: todolist[index][1],
                 onChanged: (value)=>checkbox(value, index),
-                deltaskfunction: (context)=> deltask(index),
                 edittaskfunction: (context)=> popup2(index),
+                deltaskfunction: (context)=>showDialog(context: context, builder: (context)=>AlertDialog(
+                  backgroundColor: Colors.blue[100],
+                  content: Container(
+                    height: 110,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(height: 50 ,
+                          child: Text("PROCEED WITH DELETION?",style: TextStyle(color: Colors.black,
+                            fontSize: 17,
+                            fontFamily: 'fira-M',
+                          ),
 
-                date: todolist[index][2],
+                          ),
+
+                        ),
+
+                        SizedBox(height: 2,),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(onPressed: ()=>Navigator.of(context).pop(), child: Text("NO"),),
+
+                            SizedBox(width: 20,),
+                            ElevatedButton(onPressed: (){ deltask(index);Navigator.of(context).pop();}, child: Text("YES"),),
+
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )),
+
+                date:  todolist[index][2],
                 time1: todolist[index][3],
                 time2: todolist[index][4],
 
@@ -321,7 +388,7 @@ class Card extends StatelessWidget {
                                 child: Padding(
                                   padding:EdgeInsets.fromLTRB(3, 2, 3, 2),
                                   child: Container(
-                                    child: Text("${date}"),
+                                    child: Center(child: Text("${date}",style: TextStyle(color: Colors.white))),
                                   ),
                                 ),
                               ),
@@ -374,7 +441,7 @@ class Card extends StatelessWidget {
                                 child: Padding(
                                   padding:EdgeInsets.fromLTRB(3, 2, 3, 2),
                                   child: Container(
-                                    child: Center(child: Text("${time1}")),
+                                    child: Center(child: Text("${time1}",style: TextStyle(color: Colors.white))),
                                   ),
                                 ),
                               ),
@@ -391,7 +458,7 @@ class Card extends StatelessWidget {
                                 child: Padding(
                                   padding:EdgeInsets.fromLTRB(3, 2, 3, 2),
                                   child: Container(
-                                    child: Center(child: Text("${time2}")),
+                                    child: Center(child: Text("${time2}",style: TextStyle(color: Colors.white),)),
                                   ),
                                 ),
                               ),
@@ -454,7 +521,7 @@ class Popupboxx extends StatelessWidget {
             Container(height: 50 ,
               child: Text("ADD TASK",style: TextStyle(color: Colors.black,
                 fontSize: 20,
-                fontFamily: 'fira-M',
+     
               ),
 
               ),
@@ -480,6 +547,20 @@ class Popupboxx extends StatelessWidget {
     );
   }
 }
+
+
+//
+// class Areyousure extends StatelessWidget {
+//   final index;
+//   const Areyousure({super.key,
+//   required this.index
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ;
+//   }
+// }
 
 
 // import 'package:flutter/material.dart';

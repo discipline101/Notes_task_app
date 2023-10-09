@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/db/db.dart';
-import 'package:notes/pages/popup.dart';
-import 'package:notes/pages/popup2.dart';
+import 'package:notes/pages/popup/popup.dart';
+import 'package:notes/pages/popup/popup2.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -59,7 +60,9 @@ void popup(){
       context: context,
       builder: (context){
         return Popupboxx(
-cancle: ()=>Navigator.of(context).pop(),
+cancle: () { Navigator.of(context).pop();
+_cntrl.text="";
+},
           controller: _cntrl,
           save: ()=>{
   save(),
@@ -132,14 +135,17 @@ int completed(){
   Widget build(BuildContext context) {
     return Container(
 color: _bgclr,
+
+
       child: Scaffold(
         appBar:AppBar(
           elevation: 0,
           backgroundColor: const Color(0xff6499E9),
+          // backgroundColor: Colors.blue.shade300,
           title: Row(
             children: [
               SizedBox(width: 135,),
-              Center(child: Text("TASKS",style: TextStyle(fontSize: 20,color: Colors.white),)),
+              Center(child: Text("TASKS",style: GoogleFonts.exo(fontSize: 22,color: Colors.white),)),
               SizedBox(width: 78,),
               Text("${completed()}/${db.todolist.length}"),
             ],
@@ -166,7 +172,39 @@ color: _bgclr,
                       taskname: db.todolist[index][0],
                       taskcompleted: db.todolist[index][1],
                       onChanged: (value)=>checkbox(value, index),
-                      deltaskfunction: (context)=> deltask(index),
+                      deltaskfunction: (context)=> showDialog(context: context, builder: (context)=>AlertDialog(
+                        backgroundColor: Colors.blue[100],
+                        content: Container(
+                          height: 110,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(height: 50 ,
+                                child: Text("PROCEED WITH DELETION?",style: GoogleFonts.exo(color: Colors.black,
+                                  fontSize: 17,
+
+                                ),
+
+                                ),
+
+                              ),
+
+                              SizedBox(height: 2,),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(onPressed: ()=>Navigator.of(context).pop(), child: Text("NO"),),
+
+                                  SizedBox(width: 20,),
+                                  ElevatedButton(onPressed: (){ deltask(index);Navigator.of(context).pop();}, child: Text("YES"),),
+
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      )),
                       edittaskfunction: (context)=> popup2(index),
                       color: _clr,
                     );
@@ -317,9 +355,9 @@ class Card extends StatelessWidget {
                       Flexible(
                         child: Text(taskname,
                           softWrap: true,
-                          style: TextStyle(color: Color(0xff000000),
-                            fontSize: 13.5,
-                              fontFamily: 'fira-M',
+                          style: GoogleFonts.exo(color: Color(0xff000000),
+                            fontSize: 14,
+                              // fontFamily: 'fira-M',
 
                           decoration: taskcompleted? TextDecoration.lineThrough:TextDecoration.none
                           ),),
@@ -331,8 +369,9 @@ class Card extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
+                      Colors.blue.shade200,
+
                       Colors.blueAccent.shade100,
-                      Colors.blue.shade200
 
                     ],
                     begin: Alignment.topLeft,

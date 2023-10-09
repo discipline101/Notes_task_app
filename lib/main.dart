@@ -2,14 +2,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/pages/ThirdNavbarOption/AppointmentsList.dart';
+// import 'package:notes/pages/appointmentlist/AppointmentsList.dart';
 import 'package:notes/pages/calander.dart';
 import 'package:notes/pages/calender/meeting.dart';
+import 'package:notes/pages/game/GameSelectScreen.dart';
+import 'package:notes/pages/game/game.dart';
+import 'package:notes/pages/getx.dart';
 import 'package:notes/pages/homepage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
-import 'package:notes/pages/nav.dart';
+import 'package:notes/pages/navbar/nav.dart';
+import 'package:notes/pages/navbar/nav2.dart';
+import 'package:notes/pages/navbar/nav3.dart';
 import 'package:notes/pages/start.dart';
 
 void main() async {
@@ -40,15 +49,16 @@ void main() async {
 
 
 
-  runApp(const MyApp());
+  runApp(MyApp());
 
 }
 
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   // This widget is the root of your application.
-
+  TapController controller  = Get.put(TapController());
   @override
   Widget build(BuildContext context) {
     // GoRouter.of(context).go("/start");
@@ -56,8 +66,8 @@ class MyApp extends StatelessWidget {
 int myindex=0;
     GoRouter router = GoRouter(routes: [
       GoRoute(
-          // path: "/",
-        path: "/change ti later",
+          path: "/",
+        // path: "/change ti later",
       builder: (context,state)=>StartScreen()
       ),
       ShellRoute(routes: [
@@ -74,9 +84,23 @@ int myindex=0;
         ),
 
         GoRoute(
-            // path: "/appointmentlist",
-          path: "/",
-            builder: (context,state)=> AppointmentList(),
+            path: "/appointmentlist",
+          // path: "/",
+            builder: (context,state)=> AppointmentList()
+        ),
+
+        GoRoute(
+          path: "/snakegame",
+          // path: "/",
+          // builder: (context,state)=> DifficultySelectionPage(),
+          builder: (context,state)=> SnakeGame(controller.spd),
+        ),
+
+        GoRoute(
+          path: "/selectionscreen",
+          // path: "/",
+          builder: (context,state)=> DifficultySelectionPage(),
+          // builder: (context,state)=> ,
         ),
 
 
@@ -84,7 +108,8 @@ int myindex=0;
       builder: (context,state,child){
         return Scaffold(
           body: child,
-          bottomNavigationBar:nav()
+          backgroundColor: Colors.blue.shade50,
+          bottomNavigationBar:nav3()
         );
       }
       ),
@@ -95,7 +120,12 @@ int myindex=0;
     return MaterialApp.router(
 
     debugShowCheckedModeBanner: false,
-    theme: ThemeData(primarySwatch: Colors.blue),
+    theme: ThemeData(
+        primarySwatch: Colors.blue,
+      fontFamily: "exo-light"
+      // textTheme: GoogleFonts.exo(),
+    ),
+
       routerConfig: router,
 
 

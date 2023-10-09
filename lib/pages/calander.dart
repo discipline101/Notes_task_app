@@ -7,7 +7,7 @@ import 'package:notes/db/calenderDB.dart';
 import 'package:notes/pages/calender/meeting.dart';
 import 'package:notes/pages/calender/meeting_ds.dart';
 import 'package:notes/pages/getx.dart';
-import 'package:notes/pages/popup_calender.dart';
+import 'package:notes/pages/popup/popup_calender.dart';
 import 'package:popover/popover.dart';
 
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -73,10 +73,11 @@ class _CalanderState extends State<Calander> {
 @override
   void initState(){
     // TODO: implement initState
-  calendb.loaddb();
+
   print("--------------------------------------------------------------------------------------------------------------------------------------start");
   print(calendb.meetings);
   if(calendb.meetings !=null) {
+    calendb.loaddb();
     meetings = calendb.meetings;
   }
     super.initState();
@@ -150,9 +151,14 @@ int? _value=1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor:Color(0xff6499E9),
+      appBar: AppBar(
+        backgroundColor:Color(0xff6499E9),
         title: Center(
-          child: Text("CALENDER",style: TextStyle(fontSize: 20,color: Colors.white),)),),
+          child: Text("CALENDER",style: TextStyle(fontSize: 22,color: Colors.white),)),),
+
+
+
+
       floatingActionButton: FloatingActionButton(
         onPressed: ()=> showDialog(
             context: context,
@@ -174,7 +180,7 @@ int? _value=1;
                               child: Text("ADD TASK",
                                 style: TextStyle(color: Colors.black,
                                   fontSize: 20,
-                                  fontFamily: 'fira-M',
+
                                 ),
 
                               ),
@@ -318,7 +324,9 @@ int? _value=1;
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 ElevatedButton(
-                                  onPressed: () => Navigator.of(context).pop(),
+                                  onPressed: () { Navigator.of(context).pop();
+                                    _cntrl3.text="";
+                                    },
                                   child: Text("cancle"),),
                                 SizedBox(width: 20,),
                                 ElevatedButton(onPressed: () {
