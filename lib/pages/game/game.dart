@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
 
 
@@ -920,6 +923,12 @@ class SnakeGame extends StatefulWidget {
 }
 
 class _SnakeGameState extends State<SnakeGame> {
+
+
+
+
+  final player = AudioCache();
+
   bool isPaused = false;
   static const gridSize = 20;
   static const cellSize = 17.0;
@@ -941,14 +950,51 @@ class _SnakeGameState extends State<SnakeGame> {
   Color snakeColor = Colors.blue; // Add snakeColor variable
 
   final snakeColors = [Colors.blue, Colors.red, Colors.green, Colors.yellow]; // Define snake colors
+  final HighScoreDB highScoreDB = HighScoreDB();
 
+  int highScore = 0; // Add a high score variable
+
+
+
+  void _initHighScore() async {
+
+    await highScoreDB.init();
+  }
   @override
   void initState() {
+    HighScoreDB().init().then((_) {
+      HighScoreDB().getHighScore().then((score) {
+        setState(() {
+          highScore = score!;
+        });
+      });
+    });
     super.initState();
+    _initHighScore();
+
+  }
+  void _endGame() {
+    isPlaying = false;
+    _timer.cancel();
+    print("you died");
+
+    // Check if the current score is higher than the high score
+    highScoreDB.getHighScore().then((currentHighScore) {
+      if (score > currentHighScore!) {
+        highScoreDB.updateHighScore(score);
+      }
+    });
   }
 
   void _startGame() {
     setState(() {
+      HighScoreDB().init().then((_) {
+        HighScoreDB().getHighScore().then((score) {
+          setState(() {
+            highScore = score!;
+          });
+        });
+      });
       snake = [Offset(5, 5)];
       direction = Direction.right;
       score = 0;
@@ -1124,7 +1170,7 @@ class _SnakeGameState extends State<SnakeGame> {
       case PowerUpType.Speed:
       // Speed boost effect
         _timer.cancel();
-        _timer = Timer.periodic(Duration(milliseconds: func()! ~/ 2), _update);
+        _timer = Timer.periodic(Duration(milliseconds: func()! ), _update);
         Future.delayed(Duration(seconds: 5), () {
           _timer.cancel();
           _timer = Timer.periodic(Duration(milliseconds: func()!), _update);
@@ -1155,10 +1201,6 @@ class _SnakeGameState extends State<SnakeGame> {
     return false;
   }
 
-  void _endGame() {
-    isPlaying = false;
-    _timer.cancel();
-  }
 
   void _handleSwipe(DragUpdateDetails details) {
     if (!isPlaying) return;
@@ -1192,70 +1234,211 @@ class _SnakeGameState extends State<SnakeGame> {
           title: Center(child: Text('Snake Game')),
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Score: $score',
-                style: TextStyle(fontSize: 24),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Container(
-                  width: gridSize * cellSize,
-                  height: gridSize * cellSize,
-                  decoration: BoxDecoration(),
-                  child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: gridSize,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+Stack(
+  children: [
+    Container(child: Image.asset("assets/cloud.gif"),),
+    Container(
+      width: 400,
+      height: 210,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+        Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(width: 43,),
+            Text("""
+                  
+                                                                                                                        
+                                                                                          
+                                                                                          
+                                                                                          
+                                              ██████                                      
+                                          ████░░░░░░██                                    
+                                        ██░░░░░░░░██                                      
+                                      ██░░░░░░░░░░░░██                                    
+                                    ██░░░░░░░░░░░░░░░░██                                  
+                                  ██░░░░░░░░░░░░░░░░░░██                                  
+                                  ██░░░░░░░░░░░░░░░░░░░░██                                
+                          ████████░░░░░░░░░░░░░░░░░░░░░░░░████████                        
+                        ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                      
+                        ██▓▓░░░░░░░░░░░░  ██░░░░  ██░░░░░░░░░░░░▓▓██                      
+                          ██▓▓░░░░░░░░░░████░░░░████░░░░░░░░░░▓▓██                        
+                            ██▓▓░░░░░░░░████░░░░████░░░░░░░░▓▓██                          
+                              ██░░░░░░░░▓▓██░░░░██▓▓░░░░░░░░██                            
+                              ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                            
+                              ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                            
+                              ██▓▓░░░░░░░░░░░░░░░░░░░░░░░░▓▓██                            
+                              ██▓▓░░░░░░░░░░░░░░░░░░░░░░░░▓▓██                            
+                                ██░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░██                              
+                                ██▓▓░░▓▓████████████▓▓░░▓▓██                              
+                                  ██▓▓██            ██▓▓██                                
+                                    ██                ██                                  
+                                                                                          
+                                                                                          
+                                                                                          
+                                                                                          
+
+                  """,style: GoogleFonts.spaceMono(fontSize: 1.5,fontWeight: FontWeight.bold),),
+            SizedBox(width: 12,),
+
+            Text(
+              '$score',
+              style: TextStyle(fontSize: 24),
+            ),
+SizedBox(width: 30,),
+            Text("""
+                  
+                                                                                                                        
+                                                                                          
+                                                                                          
+                                                                                          
+                                              ██████                                      
+                                          ████░░░░░░██                  
+                                        ██░░░░░░░░██                    
+                                      ██░░░░░░░░░░░░██                  
+                                    ██░░░░░░░░░░░░░░░░██                                  
+                                  ██░░░░░░░░░░░░░░░░░░██                                  
+                                  ██░░░░░░░░░░░░░░░░░░░░██                                
+                          ████████░░░░░░░░░░░░░░░░░░░░░░░░████████                        
+                        ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                      
+                        ██▓▓░░░░░░░░░░░░  ██░░░░  ██░░░░░░░░░░░░▓▓██                      
+                          ██▓▓░░░░░░░░░░████░░░░████░░░░░░░░░░▓▓██                        
+                            ██▓▓░░░░░░░░████░░░░████░░░░░░░░▓▓██                          
+                              ██░░░░░░░░▓▓██░░░░██▓▓░░░░░░░░██                            
+                              ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                            
+                              ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                            
+                              ██▓▓░░░░░░░░░░░░░░░░░░░░░░░░▓▓██                            
+                              ██▓▓░░░░░░░░░░░░░░░░░░░░░░░░▓▓██                            
+                                ██░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░██                              
+                                ██▓▓░░▓▓████████████▓▓░░▓▓██                              
+                                  ██▓▓██            ██▓▓██                                
+                                    ██                ██                                  
+                                                                                          
+                                                                                          
+                                                                                          
+                                                                                          
+
+                  """,style: GoogleFonts.spaceMono(fontSize: 1.5,fontWeight: FontWeight.bold),),
+
+          ],
+        ),
+
+      ],),
+    ),
+    Container(
+      height: 130,
+      width: double.maxFinite,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text("${highScore}",style: TextStyle(fontSize:70,fontWeight: FontWeight.bold),),
+        ],
+      ),
+    )
+
+
+  ],
+),
+
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    width: gridSize * cellSize,
+                    height: gridSize * cellSize,
+                    decoration: BoxDecoration(),
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: gridSize,
+                      ),
+                      itemBuilder: (context, index) {
+                        final x = index % gridSize;
+                        final y = index ~/ gridSize;
+                        final isSnake = snake.contains(Offset(x.toDouble(), y.toDouble()));
+                        final isObstacle = obstacles.contains(Offset(x.toDouble(), y.toDouble()));
+                        final isFood = foods.contains(Offset(x.toDouble(), y.toDouble()));
+                        final isPowerUp = powerUps.any((powerUp) => powerUp.position == Offset(x.toDouble(), y.toDouble()));
+                        return AnimatedContainer(
+                          duration: Duration(
+                              microseconds: 10000
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSnake
+                                ? snakeColor // Use snakeColor here
+                                : isFood
+                                ? Colors.green
+                                : isObstacle
+                                ? Colors.red
+                                : isPowerUp
+                                ? Colors.orange // Power-up color
+                                : Colors.white,
+                          ),
+                        );
+                      },
                     ),
-                    itemBuilder: (context, index) {
-                      final x = index % gridSize;
-                      final y = index ~/ gridSize;
-                      final isSnake = snake.contains(Offset(x.toDouble(), y.toDouble()));
-                      final isObstacle = obstacles.contains(Offset(x.toDouble(), y.toDouble()));
-                      final isFood = foods.contains(Offset(x.toDouble(), y.toDouble()));
-                      final isPowerUp = powerUps.any((powerUp) => powerUp.position == Offset(x.toDouble(), y.toDouble()));
-                      return AnimatedContainer(
-                        duration: Duration(
-                            microseconds: 10000
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSnake
-                              ? snakeColor // Use snakeColor here
-                              : isFood
-                              ? Colors.green
-                              : isObstacle
-                              ? Colors.red
-                              : isPowerUp
-                              ? Colors.orange // Power-up color
-                              : Colors.white,
-                        ),
-                      );
-                    },
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                child: (isPlaying
-                    ? ElevatedButton(
-                  onPressed: _togglePause ,
-                  child: Text(isPaused ? 'Resume' : 'Pause'),
-                )
-                    : ElevatedButton(
-                  onPressed: isPlaying ? null : _startGame,
-                  child: Text(
-                    isPlaying ? 'Game in Progress' : 'Start Game'  ,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                )),
-              ),
-            ],
+                SizedBox(height: 5),
+                Container(
+                  child: (isPlaying
+                      ? ElevatedButton(
+                    onPressed: _togglePause ,
+                    child: Text(isPaused ? 'Resume' : 'Pause'),
+                  )
+                      : ElevatedButton(
+                    onPressed: isPlaying ? null : _startGame,
+                    child: Text(
+                      isPlaying ? 'Game in Progress' : 'Start Game'  ,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  )),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+}
+
+
+
+
+class HighScoreDB {
+  final String boxName = 'high_scores';
+
+  // Initialize Hive box
+  Future<void> init() async {
+    await Hive.initFlutter();
+    await Hive.openBox<int>(boxName);
+  }
+
+  // Store a high score
+  Future<void> saveHighScore(int score) async {
+    final box = await Hive.openBox<int>(boxName);
+    await box.put('high_score', score);
+  }
+
+  // Retrieve the high score
+  Future<int?> getHighScore() async {
+    final box = await Hive.openBox<int>(boxName);
+    final highScore = box.get('high_score', defaultValue: 0);
+    return highScore;
+  }
+
+  // Update the high score
+  Future<void> updateHighScore(int newScore) async {
+    final box = await Hive.openBox<int>(boxName);
+    final currentHighScore = await getHighScore();
+    if (newScore > currentHighScore!) {
+      await saveHighScore(newScore);
+    }
   }
 }

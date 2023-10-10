@@ -35,8 +35,28 @@ class _CalanderState extends State<Calander> {
 
 
 
-
-
+  String getViewName(CalendarView view) {
+    switch (view) {
+      case CalendarView.day:
+        return "Day Wise";
+      case CalendarView.week:
+        return "Week Wise";
+      case CalendarView.month:
+        return "Month Wise";
+      case CalendarView.timelineDay:
+        return "Timeline-Day Wise";
+      case CalendarView.timelineWeek:
+        return "Timeline-Week Wise";
+      case CalendarView.timelineMonth:
+        return "Timeline-Month Wise";
+      case CalendarView.workWeek:
+        return "Work-Week Wise";
+      case CalendarView.schedule:
+        return "Schedule";
+      default:
+        return "Unknown";
+    }
+  }
   List<Meeting>? _getDS(name,year,month,day,hr1,min1,hr2,min2){
   // final DateTime today = DateTime.now();
   final DateTime startTime = DateTime(year,month,day,hr1,min1,0);
@@ -148,13 +168,55 @@ void apple2()async{
 
 int? _value=1;
 
+
+
+int calenview(int iii){
+  print("yoohoo");
+  print(iii);
+  return iii;
+}
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor:Color(0xff6499E9),
-        title: Center(
-          child: Text("CALENDER",style: TextStyle(fontSize: 22,color: Colors.white),)),),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(width: 22,),
+
+            Center(
+                child: Text("CALENDER",style: TextStyle(fontSize: 22,color: Colors.white),)),
+
+
+            PopupMenuButton<CalendarView>(
+          // icon: Icon(CupertinoIcons.app_badge_fill),
+        initialValue: calendercntrl.view,
+          itemBuilder: (BuildContext context) {
+            return CalendarView.values
+                .where((view) => getViewName(view) != "Unknown")
+                .map((view) {
+              return PopupMenuItem<CalendarView>(
+                value: view,
+                child: Text(getViewName(view)),
+              );
+            }).toList();
+          },
+          onSelected: (newValue) {
+            setState(() {
+              calendercntrl.view = newValue!;
+            });
+          },
+          child: Icon(Icons.remove_red_eye_outlined),
+        ),
+
+          ],
+        ),),
 
 
 
@@ -375,7 +437,8 @@ int? _value=1;
 
 
             Container(
-              height: 680,
+              height: 600,
+              // color: Colors.red,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: SfCalendar(
@@ -408,128 +471,115 @@ int? _value=1;
                 ),
               ),
             ),
-            Container(
-              child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(width: 22,),
-                  Icon(CupertinoIcons.eye_solid,size: 35.0,),
 
-                  SizedBox(width: 72,),
-                  Text("TASK FILTERS",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),),
-
-                ],
-              )
-              ,color: Colors.blue[100],width:500 ,),
-
-            Container(
-              color: Colors.blue[100],
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 10, 30, 10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Radio(value: 7,
-                            groupValue: _value,
-                            onChanged: (value){setState(() {
-                              _value=value;
-                              calendercntrl.view = calenderview[_value!];
-
-                            });}),
-                        Text("Schedule",style: TextStyle(fontSize: 16),)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Radio(value: 0,
-                            groupValue: _value,
-                            onChanged: (value){setState(() {
-                              _value=value;
-
-                              calendercntrl.view = calenderview[_value!];
-
-                            });}),
-                        Text("Day Wise",style: TextStyle(fontSize: 16),)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Radio(value: 1,
-                            groupValue: _value,
-                            onChanged: (value){setState(() {
-                              _value=value;
-                              calendercntrl.view = calenderview[_value!];
-
-                            });}),
-                        Text("Week Wise",style: TextStyle(fontSize: 16),)
-
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Radio(value: 2,
-                            groupValue: _value,
-                            onChanged: (value){setState(() {
-                              _value=value;
-                              calendercntrl.view = calenderview[_value!];
-
-                            });}),
-                        Text("Month Wise",style: TextStyle(fontSize: 16),)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Radio(value: 3,
-                            groupValue: _value,
-                            onChanged: (value){setState(() {
-                              _value=value;
-                              calendercntrl.view = calenderview[_value!];
-
-                            });}),
-                        Text("Timeline-Day Wise",style: TextStyle(fontSize: 16),)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Radio(value: 4,
-                            groupValue: _value,
-                            onChanged: (value){setState(() {
-                              _value=value;
-                              calendercntrl.view = calenderview[_value!];
-
-                            });}),
-                        Text("Timeline-Week Wise",style: TextStyle(fontSize: 16),)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Radio(value: 5,
-                            groupValue: _value,
-                            onChanged: (value){setState(() {
-                              _value=value;
-                              calendercntrl.view = calenderview[_value!];
-
-                            });}),
-                        Text("Timeline-Month Wise",style: TextStyle(fontSize: 16),)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Radio(value: 6,
-                            groupValue: _value,
-                            onChanged: (value){setState(() {
-                              _value=value;
-                              calendercntrl.view = calenderview[_value!];
-
-                            });}),
-                        Text("Work-Week Wise",style: TextStyle(fontSize: 16),)
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )
+            // Container(
+            //   color: Colors.blue[100],
+            //   child: Padding(
+            //     padding: const EdgeInsets.fromLTRB(15, 10, 30, 10),
+            //     child: Column(
+            //       children: [
+            //         Row(
+            //           children: [
+            //             Radio(value: 7,
+            //                 groupValue: _value,
+            //                 onChanged: (value){setState(() {
+            //                   _value=value;
+            //                   calendercntrl.view = calenderview[_value!];
+            //
+            //                 });}),
+            //             Text("Schedule",style: TextStyle(fontSize: 16),)
+            //           ],
+            //         ),
+            //         Row(
+            //           children: [
+            //             Radio(value: 0,
+            //                 groupValue: _value,
+            //                 onChanged: (value){setState(() {
+            //                   _value=value;
+            //
+            //                   calendercntrl.view = calenderview[_value!];
+            //
+            //                 });}),
+            //             Text("Day Wise",style: TextStyle(fontSize: 16),)
+            //           ],
+            //         ),
+            //         Row(
+            //           children: [
+            //             Radio(value: 1,
+            //                 groupValue: _value,
+            //                 onChanged: (value){setState(() {
+            //                   _value=value;
+            //                   calendercntrl.view = calenderview[_value!];
+            //
+            //                 });}),
+            //             Text("Week Wise",style: TextStyle(fontSize: 16),)
+            //
+            //           ],
+            //         ),
+            //         Row(
+            //           children: [
+            //             Radio(value: 2,
+            //                 groupValue: _value,
+            //                 onChanged: (value){setState(() {
+            //                   _value=value;
+            //                   calendercntrl.view = calenderview[_value!];
+            //
+            //                 });}),
+            //             Text("Month Wise",style: TextStyle(fontSize: 16),)
+            //           ],
+            //         ),
+            //         Row(
+            //           children: [
+            //             Radio(value: 3,
+            //                 groupValue: _value,
+            //                 onChanged: (value){setState(() {
+            //                   _value=value;
+            //                   calendercntrl.view = calenderview[_value!];
+            //
+            //                 });}),
+            //             Text("Timeline-Day Wise",style: TextStyle(fontSize: 16),)
+            //           ],
+            //         ),
+            //         Row(
+            //           children: [
+            //             Radio(value: 4,
+            //                 groupValue: _value,
+            //                 onChanged: (value){setState(() {
+            //                   _value=value;
+            //                   calendercntrl.view = calenderview[_value!];
+            //
+            //                 });}),
+            //             Text("Timeline-Week Wise",style: TextStyle(fontSize: 16),)
+            //           ],
+            //         ),
+            //         Row(
+            //           children: [
+            //             Radio(value: 5,
+            //                 groupValue: _value,
+            //                 onChanged: (value){setState(() {
+            //                   _value=value;
+            //                   calendercntrl.view = calenderview[_value!];
+            //
+            //                 });}),
+            //             Text("Timeline-Month Wise",style: TextStyle(fontSize: 16),)
+            //           ],
+            //         ),
+            //         Row(
+            //           children: [
+            //             Radio(value: 6,
+            //                 groupValue: _value,
+            //                 onChanged: (value){setState(() {
+            //                   _value=value;
+            //                   calendercntrl.view = calenderview[_value!];
+            //
+            //                 });}),
+            //             Text("Work-Week Wise",style: TextStyle(fontSize: 16),)
+            //           ],
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // )
 
 
 
@@ -545,6 +595,9 @@ int? _value=1;
 
 
 
+
+
+// Example calendar controller
 
 
 
@@ -737,3 +790,4 @@ int? _value=1;
 //     );
 //   }
 // }
+

@@ -88,7 +88,16 @@ _cntrl.text="";
 
 
 void popup2(index){
-    showDialog(
+  for (int i =0;i<db.todolist.length;i++){
+      setState(() {
+        _cntrl2.text= db.todolist[index][0];
+      });
+
+
+
+  }
+
+  showDialog(
         context: context,
         builder: (context){
           return Popupboxx2(
@@ -102,6 +111,7 @@ void popup2(index){
   }
 
   void save2(index){
+
     setState(() {
       if(_cntrl2.text==""){}else {
         db.todolist[index][0]=_cntrl2.text;
@@ -389,3 +399,5 @@ class Card extends StatelessWidget {
     );
   }
 }
+
+

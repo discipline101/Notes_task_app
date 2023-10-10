@@ -127,6 +127,16 @@ class _AppointmentListState extends State<AppointmentList> {
 
 
   void popup2(index){
+    for (int i =0;i<calendb.appointmentlist.length;i++){
+      if ( calendb.meetings3[i].eventName==todolist[index][0]  && calendb.meetings3[i].from.toString()==todolist[index][5] ){
+        setState(() {
+          _cntrl2.text= calendb.meetings3[i].eventName;
+        });
+      }
+
+
+    }
+
     showDialog(
         context: context,
         builder: (context){
@@ -144,11 +154,18 @@ class _AppointmentListState extends State<AppointmentList> {
   void save2(index){
     setState(() {
       if(_cntrl2.text==""){}else {
-        setState(() {
-          todolist[index][0]=_cntrl2.text;
-          calendb.meetings3[index].eventName=_cntrl2.text;
-          calendb.updatedb2();
-        });
+        for (int i =0;i<calendb.appointmentlist.length;i++){
+          if ( calendb.meetings3[i].eventName==todolist[index][0]  && calendb.meetings3[i].from.toString()==todolist[index][5] ){
+            setState(() {
+              todolist[index][0]=_cntrl2.text;
+              calendb.meetings3[i].eventName=_cntrl2.text;
+              calendb.updatedb2();
+            });
+          }
+
+
+          }
+
 
       }
     });
@@ -497,7 +514,6 @@ class Card extends StatelessWidget {
 }
 
 
-// import 'package:flutter/material.dart';
 
 class Popupboxx extends StatelessWidget {
   final controller;
@@ -521,7 +537,7 @@ class Popupboxx extends StatelessWidget {
             Container(height: 50 ,
               child: Text("ADD TASK",style: TextStyle(color: Colors.black,
                 fontSize: 20,
-     
+
               ),
 
               ),
@@ -548,19 +564,6 @@ class Popupboxx extends StatelessWidget {
   }
 }
 
-
-//
-// class Areyousure extends StatelessWidget {
-//   final index;
-//   const Areyousure({super.key,
-//   required this.index
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ;
-//   }
-// }
 
 
 // import 'package:flutter/material.dart';

@@ -121,14 +121,6 @@ void boat(){
 
 
 
-  // void loaddb2(){
-  //   meetings2 = box2.get("CALENDERLIST2");
-  // }
-  //
-  // void updatedb2(){
-  //   box2.put("CALENDERLIST2", meetings2);
-  // }
-
 }
 
 
