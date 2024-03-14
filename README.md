@@ -6,7 +6,6 @@ The Notes App is a Flutter project designed to assist users in managing their ta
 
 - **Task Management**:  
   - Create, edit, delete, and mark tasks as complete.
-  - Organize tasks into categories or lists for better organization.
   - Set deadlines and reminders for tasks to stay on track.
 
 - **Local Data Storage**:  
