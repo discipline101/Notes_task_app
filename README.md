@@ -1,7 +1,5 @@
 # Notes App
 
-## Introduction
-
 The Notes App is a Flutter project designed to assist users in managing their tasks, appointments, and events efficiently. With its intuitive interface and powerful features, users can stay organized and productive.
 
 ## Features
