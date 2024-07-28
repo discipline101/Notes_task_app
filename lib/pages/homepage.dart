@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
   if(box.get("TODOLIST")==null){
+
     db.initd();
   }else{
     db.loaddb();
