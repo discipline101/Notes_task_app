@@ -10,7 +10,7 @@ final box = Hive.box("box");
 //init
 void initd(){
   todolist = [
-    ["Click on + button to add item",false]
+    ["Slide to Right --->",false]
   ];
 }
 

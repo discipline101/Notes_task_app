@@ -310,116 +310,116 @@ color: _bgclr,
 
 //ACB4C7
 
-class Card extends StatelessWidget {
-  final String taskname;
-  final bool taskcompleted;
-  final color;
-  Function(bool?)? onChanged;
-  Function(BuildContext)? deltaskfunction;
-  Function(BuildContext)? edittaskfunction;
-
-   Card({
-     super.key,
-     required this.taskcompleted,
-     required this.taskname,
-     required this.onChanged,
-     required this.deltaskfunction,
-     required this.edittaskfunction,
-     required this.color,
-   });
-
-  @override
-  Widget build(BuildContext context) {
-    return   Column(
-      children: [
-// Container(height: 0.1,color: Colors.white,),
-        Padding(
-
-          padding: const EdgeInsets.fromLTRB(20, 7, 20, 0),
-
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(3.0),
-
-
-            child: Slidable(
-              startActionPane: ActionPane(
-                extentRatio: 0.2,
-                motion: StretchMotion(),
-                children: [
-                  SlidableAction(
-                    onPressed: edittaskfunction,
-                    icon: Icons.edit,
-                    backgroundColor: Colors.black,
-                  )
-                ],
-              ),
-              endActionPane: ActionPane(
-                extentRatio: 0.2,
-                motion: StretchMotion(),
-                children: [
-                  SlidableAction(
-                    onPressed: deltaskfunction,
-                    icon: Icons.delete,
-                    backgroundColor: Colors.black,
-                  )
-                ],
-              ),
-
-              child: Container(
-                constraints: BoxConstraints(
-                    minHeight: 50
-                  ),
-
-
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 7, 10, 7),
-                  child: Row(
-                    children: [
-                      Checkbox(value: taskcompleted,
-                          onChanged: onChanged,
-                          activeColor: Colors.blue.shade800,
-
-
-                      ),
-
-
-                      Flexible(
-                        child: Text(taskname,
-                          softWrap: true,
-                          style: GoogleFonts.exo(color: Color(0xff000000),
-                            fontSize: 14,
-                              // fontFamily: 'fira-M',
-
-                          decoration: taskcompleted? TextDecoration.lineThrough:TextDecoration.none
-                          ),),
-                      )
-
-                    ],
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.blue.shade200,
-
-                      Colors.blueAccent.shade100,
-
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight
-                  ),
-                    // color: Colors.transparent,
-                    // color: color,
-                    ),
-              ),
-            ),
-          ),
-        ),
-
-      ],
-    );
-  }
-}
+// class Card extends StatelessWidget {
+//   final String taskname;
+//   final bool taskcompleted;
+//   final color;
+//   Function(bool?)? onChanged;
+//   Function(BuildContext)? deltaskfunction;
+//   Function(BuildContext)? edittaskfunction;
+//
+//    Card({
+//      super.key,
+//      required this.taskcompleted,
+//      required this.taskname,
+//      required this.onChanged,
+//      required this.deltaskfunction,
+//      required this.edittaskfunction,
+//      required this.color,
+//    });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return   Column(
+//       children: [
+// // Container(height: 0.1,color: Colors.white,),
+//         Padding(
+//
+//           padding: const EdgeInsets.fromLTRB(20, 7, 20, 0),
+//
+//           child: ClipRRect(
+//             borderRadius: BorderRadius.circular(3.0),
+//
+//
+//             child: Slidable(
+//               startActionPane: ActionPane(
+//                 extentRatio: 0.2,
+//                 motion: StretchMotion(),
+//                 children: [
+//                   SlidableAction(
+//                     onPressed: edittaskfunction,
+//                     icon: Icons.edit,
+//                     backgroundColor: Colors.black,
+//                   )
+//                 ],
+//               ),
+//               endActionPane: ActionPane(
+//                 extentRatio: 0.2,
+//                 motion: StretchMotion(),
+//                 children: [
+//                   SlidableAction(
+//                     onPressed: deltaskfunction,
+//                     icon: Icons.delete,
+//                     backgroundColor: Colors.black,
+//                   )
+//                 ],
+//               ),
+//
+//               child: Container(
+//                 constraints: BoxConstraints(
+//                     minHeight: 50
+//                   ),
+//
+//
+//                 child: Padding(
+//                   padding: const EdgeInsets.fromLTRB(0, 7, 10, 7),
+//                   child: Row(
+//                     children: [
+//                       Checkbox(value: taskcompleted,
+//                           onChanged: onChanged,
+//                           activeColor: Colors.blue.shade800,
+//
+//
+//                       ),
+//
+//
+//                       Flexible(
+//                         child: Text(taskname,
+//                           softWrap: true,
+//                           style: GoogleFonts.exo(color: Color(0xff000000),
+//                             fontSize: 14,
+//                               // fontFamily: 'fira-M',
+//
+//                           decoration: taskcompleted? TextDecoration.lineThrough:TextDecoration.none
+//                           ),),
+//                       )
+//
+//                     ],
+//                   ),
+//                 ),
+//                 decoration: BoxDecoration(
+//                   gradient: LinearGradient(
+//                     colors: [
+//                       Colors.blue.shade200,
+//
+//                       Colors.blueAccent.shade100,
+//
+//                     ],
+//                     begin: Alignment.topLeft,
+//                     end: Alignment.bottomRight
+//                   ),
+//                     // color: Colors.transparent,
+//                     // color: color,
+//                     ),
+//               ),
+//             ),
+//           ),
+//         ),
+//
+//       ],
+//     );
+//   }
+// }
 
 
 class TaskCard extends StatelessWidget {
