@@ -113,7 +113,7 @@ class _DifficultySelectionPageState extends State<DifficultySelectionPage> {
 
  
    """
-                ,style: GoogleFonts.spaceMono(fontSize: 5),
+                ,style: GoogleFonts.spaceMono(fontSize: 5,color: Colors.blue),
 
               ),
             ),

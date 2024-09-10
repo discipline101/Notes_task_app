@@ -444,6 +444,12 @@ int calenview(int iii){
                 child: SfCalendar(
 
                   cellBorderColor: Colors.transparent,
+                  headerHeight: 50,
+                  headerStyle: CalendarHeaderStyle(
+                    backgroundColor: Colors.blue.shade300,
+                    textStyle: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center
+                  ),
                   initialSelectedDate: DateTime.now(),
                   todayHighlightColor: Colors.lightBlueAccent,
                   dataSource: MeetingDataSource(meetings),

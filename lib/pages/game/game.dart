@@ -1222,9 +1222,10 @@ class _SnakeGameState extends State<SnakeGame> {
       }
     }
   }
-
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return GestureDetector(
       onPanUpdate: _handleSwipe,
       child: Scaffold(
@@ -1242,16 +1243,18 @@ Stack(
   children: [
     Container(child: Image.asset("assets/cloud.gif"),),
     Container(
-      width: 400,
+      width: size.width*0.95,
       height: 210,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-        Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(width: 43,),
-            Text("""
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(width: 43,),
+              Text("""
                   
                                                                                                                         
                                                                                           
@@ -1283,49 +1286,50 @@ Stack(
                                                                                           
                                                                                           
 
-                  """,style: GoogleFonts.spaceMono(fontSize: 1.5,fontWeight: FontWeight.bold),),
-            SizedBox(width: 12,),
-
-            Text(
-              '$score',
-              style: TextStyle(fontSize: 24),
-            ),
-SizedBox(width: 30,),
-            Text("""
-                  
-                                                                                                                        
-                                                                                          
-                                                                                          
-                                                                                          
-                                              ██████                                      
-                                          ████░░░░░░██                  
-                                        ██░░░░░░░░██                    
-                                      ██░░░░░░░░░░░░██                  
-                                    ██░░░░░░░░░░░░░░░░██                                  
-                                  ██░░░░░░░░░░░░░░░░░░██                                  
-                                  ██░░░░░░░░░░░░░░░░░░░░██                                
-                          ████████░░░░░░░░░░░░░░░░░░░░░░░░████████                        
-                        ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                      
-                        ██▓▓░░░░░░░░░░░░  ██░░░░  ██░░░░░░░░░░░░▓▓██                      
-                          ██▓▓░░░░░░░░░░████░░░░████░░░░░░░░░░▓▓██                        
-                            ██▓▓░░░░░░░░████░░░░████░░░░░░░░▓▓██                          
-                              ██░░░░░░░░▓▓██░░░░██▓▓░░░░░░░░██                            
-                              ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                            
-                              ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                            
-                              ██▓▓░░░░░░░░░░░░░░░░░░░░░░░░▓▓██                            
-                              ██▓▓░░░░░░░░░░░░░░░░░░░░░░░░▓▓██                            
-                                ██░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░██                              
-                                ██▓▓░░▓▓████████████▓▓░░▓▓██                              
-                                  ██▓▓██            ██▓▓██                                
-                                    ██                ██                                  
-                                                                                          
-                                                                                          
-                                                                                          
-                                                                                          
-
-                  """,style: GoogleFonts.spaceMono(fontSize: 1.5,fontWeight: FontWeight.bold),),
-
-          ],
+                  """,style: GoogleFonts.spaceMono(fontSize: 1.5,fontWeight: FontWeight.bold,color: Colors.blue),),
+              SizedBox(width: 12,),
+          
+              Text(
+                '$score',
+                style: TextStyle(fontSize: 24,color: Colors.blue),
+              ),
+          SizedBox(width: 30,),
+              Text("""
+                    
+                                                                                                                          
+                                                                                            
+                                                                                            
+                                                                                            
+                                                ██████                                      
+                                            ████░░░░░░██                  
+                                          ██░░░░░░░░██                    
+                                        ██░░░░░░░░░░░░██                  
+                                      ██░░░░░░░░░░░░░░░░██                                  
+                                    ██░░░░░░░░░░░░░░░░░░██                                  
+                                    ██░░░░░░░░░░░░░░░░░░░░██                                
+                            ████████░░░░░░░░░░░░░░░░░░░░░░░░████████                        
+                          ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                      
+                          ██▓▓░░░░░░░░░░░░  ██░░░░  ██░░░░░░░░░░░░▓▓██                      
+                            ██▓▓░░░░░░░░░░████░░░░████░░░░░░░░░░▓▓██                        
+                              ██▓▓░░░░░░░░████░░░░████░░░░░░░░▓▓██                          
+                                ██░░░░░░░░▓▓██░░░░██▓▓░░░░░░░░██                            
+                                ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                            
+                                ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░██                            
+                                ██▓▓░░░░░░░░░░░░░░░░░░░░░░░░▓▓██                            
+                                ██▓▓░░░░░░░░░░░░░░░░░░░░░░░░▓▓██                            
+                                  ██░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░██                              
+                                  ██▓▓░░▓▓████████████▓▓░░▓▓██                              
+                                    ██▓▓██            ██▓▓██                                
+                                      ██                ██                                  
+                                                                                            
+                                                                                            
+                                                                                            
+                                                                                            
+          
+                    """,style: GoogleFonts.spaceMono(fontSize: 1.5,fontWeight: FontWeight.bold,color: Colors.blue),),
+          
+            ],
+          ),
         ),
 
       ],),
@@ -1337,7 +1341,7 @@ SizedBox(width: 30,),
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Text("${highScore}",style: TextStyle(fontSize:70,fontWeight: FontWeight.bold),),
+          Text("${highScore}",style: TextStyle(fontSize:70,fontWeight: FontWeight.bold,color: Colors.blue),),
         ],
       ),
     )
