@@ -181,12 +181,13 @@ color: _bgclr,
           child: Column(
               children: <Widget>[
                 ListView.builder(
+                  reverse: true,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                       //i want to display all items in array
                   itemCount: db.todolist.length,
                   itemBuilder: (context,index){
-                    return Card(
+                    return TaskCard(
                       taskname: db.todolist[index][0],
                       taskcompleted: db.todolist[index][1],
                       onChanged: (value)=>checkbox(value, index),
@@ -230,55 +231,8 @@ color: _bgclr,
 
                 ),
 
-                //BOTTOM 3 BOXES
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //
-                //   children: [
-                //     Padding(
-                //       padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
-                //       child: ClipRRect(
-                //         borderRadius: BorderRadius.circular(5),
-                //         child: Container(
-                //           height: 60,
-                //           width: 60,
-                //           color: Colors.blue[100],
-                //
-                //
-                //
-                //         ),
-                //       ),
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
-                //       child: ClipRRect(
-                //         borderRadius: BorderRadius.circular(5),
-                //         child: Container(
-                //           height: 60,
-                //           width: 60,
-                //           color: Colors.blue[200],
-                //
-                //
-                //         ),
-                //       ),
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
-                //       child: ClipRRect(
-                //         borderRadius: BorderRadius.circular(5),
-                //         child: Container(
-                //           height: 60,
-                //           width: 60,
-                //           color: Colors.blue[100],
-                //
-                //
-                //         ),
-                //       ),
-                //     ),
-                //
-                //   ],
-                // ),
+
+                //BOTTOM 3 INVISIBLE BOXES
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -468,3 +422,107 @@ class Card extends StatelessWidget {
 }
 
 
+class TaskCard extends StatelessWidget {
+  final String taskname;
+  final bool taskcompleted;
+  final Color color;
+  final Function(bool?)? onChanged;
+  final Function(BuildContext)? deltaskfunction;
+  final Function(BuildContext)? edittaskfunction;
+
+  TaskCard({
+    super.key,
+    required this.taskcompleted,
+    required this.taskname,
+    required this.onChanged,
+    required this.deltaskfunction,
+    required this.edittaskfunction,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // Trigger the same function as Checkbox onChanged
+        onChanged?.call(!taskcompleted);
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 7, 20, 0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(3.0),
+              child: Slidable(
+                startActionPane: ActionPane(
+                  extentRatio: 0.2,
+                  motion: StretchMotion(),
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) => edittaskfunction?.call(context),
+                      icon: Icons.edit,
+                      backgroundColor: Colors.black,
+                    ),
+                  ],
+                ),
+                endActionPane: ActionPane(
+                  extentRatio: 0.2,
+                  motion: StretchMotion(),
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) => deltaskfunction?.call(context),
+                      icon: Icons.delete,
+                      backgroundColor: Colors.black,
+                    ),
+                  ],
+                ),
+                child: Container(
+                  constraints: BoxConstraints(minHeight: 50),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 7, 10, 7),
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: taskcompleted,
+                          onChanged: (bool? newValue) {
+                            // Trigger the Checkbox's onChanged
+                            onChanged?.call(newValue);
+                          },
+                          activeColor: Colors.blue.shade800,
+                        ),
+                        Flexible(
+                          child: Text(
+                            taskname,
+                            softWrap: true,
+                            style: GoogleFonts.exo(
+                              color: Colors.black,
+                              fontSize: 14,
+                              decoration: taskcompleted
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blue.shade200,
+                        Colors.blueAccent.shade100,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    color: color,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
