@@ -23,6 +23,7 @@ int i=0;
     return AnimatedNotchBottomBar(
         notchBottomBarController: _cntrlr,
         color: Colors.lightBlueAccent,
+        kIconSize: 10,
         durationInMilliSeconds: 170,
         showBlurBottomBar: true,
 
@@ -58,7 +59,7 @@ int i=0;
             i= index;
             // i==0?GoRouter.of(context).go("/task"):i==1?GoRouter.of(context).go("/calender"):GoRouter.of(context).go("/appointmentlist");
           });
-        },
+        }, kBottomRadius: 10,
     );
   }
 }

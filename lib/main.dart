@@ -54,6 +54,7 @@ void main() async {
 }
 
 
+
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
@@ -122,15 +123,89 @@ int myindex=0;
     return MaterialApp.router(
 
     debugShowCheckedModeBanner: false,
-    theme: ThemeData(
-        primarySwatch: Colors.blue,
-      fontFamily: "exo-light"
-      // textTheme: GoogleFonts.exo(),
-    ),
-
+      theme: blueTheme,
       routerConfig: router,
 
 
     );
   }
 }
+
+
+
+final ThemeData blueTheme = ThemeData(
+  primaryColor: Colors.blue,
+  hintColor: Colors.blueAccent,
+  scaffoldBackgroundColor: Colors.blue.shade50,
+  appBarTheme: AppBarTheme(
+    color: Colors.blue,
+    iconTheme: IconThemeData(color: Colors.white),
+    titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+  ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: Colors.blue,
+    selectedItemColor: Colors.white,
+    unselectedItemColor: Colors.white70,
+  ),
+  textTheme: TextTheme(
+    bodyLarge: TextStyle(color: Colors.white),
+    bodyMedium: TextStyle(color: Colors.white),
+  ), colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(background: Colors.blue.shade50),
+
+
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.blue.shade400, // Text color
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5), // Makes the button rectangular
+      ),
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      foregroundColor: Colors.blue,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5), // Makes the button rectangular
+      ),
+    ),
+  ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      foregroundColor: Colors.blue,
+      side: BorderSide(color: Colors.blue), // Border color
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5), // Makes the button rectangular
+      ),
+    ),
+  ),
+
+
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.blue.shade400), // Border color
+      borderRadius: BorderRadius.circular(5), // Rectangle shape
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.blue), // Focused border color
+      borderRadius: BorderRadius.circular(5), // Rectangle shape
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.blue.shade400), // Enabled border color
+      borderRadius: BorderRadius.circular(5), // Rectangle shape
+    ),
+    hintStyle: TextStyle(color: Colors.blueAccent), // Hint text color
+    labelStyle: TextStyle(color: Colors.blue), // Label text color
+    focusedErrorBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.red), // Error border color
+      borderRadius: BorderRadius.circular(5), // Rectangle shape
+    ),
+    errorBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.red), // Error border color
+      borderRadius: BorderRadius.circular(5), // Rectangle shape
+    ),
+  ),
+
+
+
+);
