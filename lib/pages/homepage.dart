@@ -154,11 +154,18 @@ color: _bgclr,
           backgroundColor: const Color(0xff6499E9),
           // backgroundColor: Colors.blue.shade300,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(width: 135,),
+              Container(
+                width: 35,
+                height: 10,
+              ),
               Center(child: Text("TASKS",style: GoogleFonts.exo(fontSize: 22,color: Colors.white),)),
-              SizedBox(width: 78,),
-              Text("${completed()}/${db.todolist.length}"),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                    child: Text("${completed()}/${db.todolist.length}")),
+              ),
             ],
           ),),
 
@@ -222,11 +229,61 @@ color: _bgclr,
                   },
 
                 ),
+
+                //BOTTOM 3 BOXES
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //
+                //   children: [
+                //     Padding(
+                //       padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+                //       child: ClipRRect(
+                //         borderRadius: BorderRadius.circular(5),
+                //         child: Container(
+                //           height: 60,
+                //           width: 60,
+                //           color: Colors.blue[100],
+                //
+                //
+                //
+                //         ),
+                //       ),
+                //     ),
+                //     Padding(
+                //       padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+                //       child: ClipRRect(
+                //         borderRadius: BorderRadius.circular(5),
+                //         child: Container(
+                //           height: 60,
+                //           width: 60,
+                //           color: Colors.blue[200],
+                //
+                //
+                //         ),
+                //       ),
+                //     ),
+                //     Padding(
+                //       padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+                //       child: ClipRRect(
+                //         borderRadius: BorderRadius.circular(5),
+                //         child: Container(
+                //           height: 60,
+                //           width: 60,
+                //           color: Colors.blue[100],
+                //
+                //
+                //         ),
+                //       ),
+                //     ),
+                //
+                //   ],
+                // ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
 
                   children: [
-                    SizedBox(width: 78,),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
                       child: ClipRRect(
@@ -234,7 +291,7 @@ color: _bgclr,
                         child: Container(
                           height: 60,
                           width: 60,
-                          color: Colors.blue[100],
+                          color: Colors.transparent,
 
 
 
@@ -248,12 +305,20 @@ color: _bgclr,
                         child: Container(
                           height: 60,
                           width: 60,
-                          color: Colors.blue[200],
+                          color: Colors.transparent,
 
 
                         ),
                       ),
                     ),
+
+                  ],
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
                     Padding(
                       padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
                       child: ClipRRect(
@@ -261,12 +326,13 @@ color: _bgclr,
                         child: Container(
                           height: 60,
                           width: 60,
-                          color: Colors.blue[100],
+                          color: Colors.transparent,
 
 
                         ),
                       ),
                     ),
+
 
                   ],
                 ),
